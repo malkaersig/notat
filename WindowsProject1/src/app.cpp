@@ -88,6 +88,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_CLOSE:
+		if (!pState->showCloseDialog)
+		{
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		}
 		if (MessageBox(hwnd, L"Will you really quiting?", L"Bill Gates's house wont bomb itself!", MB_OKCANCEL) == IDOK)
 		{
 			DestroyWindow(hwnd);
@@ -106,9 +110,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// TO HERE
 		EndPaint(hwnd, &ps);
 		return 0;
-	case WM_CREATE:
-
-
 	}
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
