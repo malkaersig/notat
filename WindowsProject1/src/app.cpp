@@ -1,64 +1,30 @@
-#ifndef UNICODE
-#define UNICODE
-#endif 
 
-#include <windows.h>
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-struct StateInfo {
-	BOOL showCloseDialog;
-};
 
-inline StateInfo* GetStateInfo(HWND hwnd)
+#include "BaseWindow.h"
+
+class MainWindow : public BaseWindow<MainWindow>
 {
-	return reinterpret_cast<StateInfo*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-}
+public:
+	PCWSTR ClassName() const { return L"Sample Window Class"; }
+	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+};
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE _hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
-	// CREATE AND INITIALIZE STATEINFO STRUCT MEMBERS
-	StateInfo* pState = new StateInfo;
-	pState->showCloseDialog = TRUE;
 
-	// REGISTER WINDOW CLASS
-	const wchar_t CLASS_NAME[] = L"Sample Window Class";
-
-	WNDCLASS wc = { };
-
-
-	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = hInstance;
-	wc.lpszClassName = CLASS_NAME;
-
-	RegisterClass(&wc);
-
-	// CREATE WINDOW
-	HWND hwnd = CreateWindowEx(
-		0,							// OPTIONAL WINDOWS STYLES
-		CLASS_NAME,					// WINDOW CLASS
-		L"Learn to Build a Bomb",	// WINDOW TEXT
-		WS_OVERLAPPEDWINDOW,		// WINDOW STYLE
-
-		// SIZE AND POSITION
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-
-		NULL,		// PARENT WINDOW
-		NULL,		// MENU
-		hInstance,	// INSTANCE HANDLE
-		pState		// ADDITIONAL APP DATA
-	);
-
-	if (hwnd == NULL)
+	MainWindow main;
+	if (!main.Create(
+		L"How to rape Noah",
+		WS_OVERLAPPEDWINDOW
+	))
 	{
 		return 0;
 	}
 
 	// SHOW WINDOW
-	ShowWindow(hwnd, nCmdShow);
+	ShowWindow(main.Window(), nCmdShow);
 
 	// RUN MESSAGE LOOP
 	MSG msg = {};
@@ -71,30 +37,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE _hPrevInstance, PWSTR pCmdLin
 	return 0;
 }
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	StateInfo* pState;
-	if (uMsg == WM_CREATE)
-	{
-		CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
-		pState = reinterpret_cast<StateInfo*>(pCreate->lpCreateParams);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pState);
-	}
-	else
-	{
-		pState = GetStateInfo(hwnd);
-	}
 
+
+LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
 	switch (uMsg)
 	{
 	case WM_CLOSE:
-		if (!pState->showCloseDialog)
+		if (MessageBox(m_hwnd, L"Will you really quiting?", L"Bill Gates's house wont bomb itself!", MB_OKCANCEL) == IDOK)
 		{
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
-		}
-		if (MessageBox(hwnd, L"Will you really quiting?", L"Bill Gates's house wont bomb itself!", MB_OKCANCEL) == IDOK)
-		{
-			DestroyWindow(hwnd);
+			DestroyWindow(m_hwnd);
 		}
 		return 0;
 
@@ -104,12 +56,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_PAINT:
 		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hwnd, &ps);
+		HDC hdc = BeginPaint(m_hwnd, &ps);
 		// PAINTING OCCURS HERE
 		FillRect(hdc, & ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
 		// TO HERE
-		EndPaint(hwnd, &ps);
+		EndPaint(m_hwnd, &ps);
 		return 0;
 	}
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
 }
