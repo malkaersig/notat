@@ -20,8 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\MainWindow.h" />
     <ClInclude Include="src\BaseWindow.h" />
     <ClInclude Include="src\Application.h" />
   </ItemGroup>
