@@ -10,6 +10,18 @@
 
 #include <windows.h>
 
+struct MsgParams
+{
+	MsgParams(UINT uMsg, WPARAM wParam, LPARAM lParam) :
+		uMsg(uMsg),
+		wParam(wParam),
+		lParam(lParam)
+	{}
+	UINT uMsg;
+	WPARAM wParam;
+	LPARAM lParam;
+};
+
 template<class DERIVED_TYPE>
 class BaseWindow
 {
@@ -17,10 +29,11 @@ public:
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		DERIVED_TYPE* pThis = NULL;
+		MsgParams msgParams(uMsg, wParam, lParam);
 
-		if (uMsg == WM_NCCREATE)
+		if (msgParams.uMsg == WM_NCCREATE)
 		{
-			CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
+			CREATESTRUCT* pCreate = (CREATESTRUCT*)msgParams.lParam;
 			pThis = (DERIVED_TYPE*)pCreate->lpCreateParams;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
 
@@ -32,11 +45,11 @@ public:
 		}
 		if (pThis)
 		{
-			return pThis->HandleMessage(uMsg, wParam, lParam);
+			return pThis->HandleMessage(msgParams);
 		}
 		else
 		{
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+			return DefWindowProc(hwnd, msgParams.uMsg, msgParams.wParam, msgParams.lParam);
 		}
 	}
 
@@ -91,7 +104,7 @@ public:
 protected:
 
 	virtual PCWSTR ClassName() const = 0;
-	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
+	virtual LRESULT HandleMessage(MsgParams& messageParams) = 0;
 
 	HWND m_hwnd;
 };

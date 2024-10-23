@@ -3,9 +3,6 @@
 #include "MainWindow.h"
 #include <iostream>
 
-#define MAGNUS_SUCCESS 2
-#define FAILED_TO_OPEN_WINDOW 501
-
 class Application
 {
 public:

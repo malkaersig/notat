@@ -27,6 +27,7 @@
     <ClInclude Include="src\MainWindow.h" />
     <ClInclude Include="src\BaseWindow.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
