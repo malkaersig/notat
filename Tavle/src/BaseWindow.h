@@ -1,20 +1,8 @@
 #pragma once
 
-#ifndef UNICODE
-#define UNICODE
-#endif 
-
-#ifndef _UNICODE
-#define _UNICODE
-#endif 
+#include "TavleInclude.h"
 
 #define CLASS_NAME_OVERRIDE(classNameStr) const wchar_t* className = L"" #classNameStr " Custom Class"; PCWSTR ClassName() const override { return className; }
-
-
-#include <windows.h>
-#include <functional>
-#include <unordered_map>
-
 
 struct MsgParams
 {

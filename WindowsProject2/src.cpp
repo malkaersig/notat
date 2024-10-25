@@ -1,5 +1,4 @@
-#include <Windows.h>
-#include <shobjidl.h>
+
 
 #include <vector>
 #include <utility>
