@@ -2,21 +2,34 @@
 
 
 
-Application::Application(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow)
-	:
+Application::Application(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow) :
 	hInstance(hInstance),
 	pCmdLine(pCmdLine),
 	nCmdShow(nCmdShow)
 {
-	init();
-	applicationLoop();
+	if (Init() < 0)
+	{
+		Cleanup();
+		return;
+	}
+	ApplicationLoop();
+	Cleanup();
+	return;
 }
 
-int Application::init()
+int Application::Init()
 {
+	// Initialize COM
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	if (FAILED(hr))
+	{
+		return -1;
+	}
+
+
 	// create window
 	if (!mainWindow.Create(
-		L"How to rape Noah",
+		L"Learn to Build a Bomb",
 		WS_OVERLAPPEDWINDOW
 	))
 	{
@@ -29,7 +42,7 @@ int Application::init()
 	return 0;
 }
 
-int Application::applicationLoop()
+int Application::ApplicationLoop()
 {
 	// RUN MESSAGE LOOP
 	MSG msg = {};
@@ -38,5 +51,11 @@ int Application::applicationLoop()
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+	return 0;
+}
+
+int Application::Cleanup()
+{
+	CoUninitialize();
 	return 0;
 }

@@ -8,7 +8,13 @@
 #define _UNICODE
 #endif 
 
+#define CLASS_NAME_OVERRIDE(classNameStr) const wchar_t* className = L"" #classNameStr " Custom Class"; PCWSTR ClassName() const override { return className; }
+
+
 #include <windows.h>
+#include <functional>
+#include <unordered_map>
+
 
 struct MsgParams
 {
@@ -21,6 +27,9 @@ struct MsgParams
 	WPARAM wParam;
 	LPARAM lParam;
 };
+
+using MsgCallback = std::function<void(MsgParams&)>;
+using MsgType = UINT;
 
 template<class DERIVED_TYPE>
 class BaseWindow
@@ -41,7 +50,7 @@ public:
 		}
 		else
 		{
-			pThis = (DERIVED_TYPE*)GetWindowLongPtr(hwnd, (LONG_PTR)pThis);
+			pThis = (DERIVED_TYPE*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		}
 		if (pThis)
 		{
@@ -102,9 +111,30 @@ public:
 
 
 protected:
-
 	virtual PCWSTR ClassName() const = 0;
-	virtual LRESULT HandleMessage(MsgParams& messageParams) = 0;
 
+	LRESULT HandleMessage(MsgParams& msgParams)
+	{
+		auto it = msgCallbacks.find(msgParams.uMsg);
+		if (it != msgCallbacks.end())
+		{
+			msgCallbacks[msgParams.uMsg](msgParams);
+			return 0;
+		}
+		return DefWindowProc(m_hwnd, msgParams.uMsg, msgParams.wParam, msgParams.lParam);
+	}
+
+	MsgCallback createCallback(void(DERIVED_TYPE::* member)(MsgParams&))
+	{
+		DERIVED_TYPE* pThis = (DERIVED_TYPE*)this;
+		return [pThis, member](MsgParams& msgParams)
+			{
+				(pThis->*member)(msgParams);
+			};
+	}
+
+protected:
+
+	std::unordered_map<MsgType, MsgCallback> msgCallbacks;
 	HWND m_hwnd;
 };

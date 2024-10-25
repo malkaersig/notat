@@ -10,8 +10,9 @@ public:
 		HINSTANCE hInstance,
 		PWSTR pCmdLine,
 		int nCmdShow);
-	int init();
-	int applicationLoop();
+	int Init();
+	int ApplicationLoop();
+	int Cleanup();
 
 private:
 	HINSTANCE hInstance;
