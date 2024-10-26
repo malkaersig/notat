@@ -2,6 +2,21 @@
 
 #include "TavleInclude.h"
 
+template<class T> void SafeRelease(T** ppT)
+{
+	if (*ppT)
+	{
+		(*ppT)->Release();
+		*ppT = NULL;
+	}
+}
+
+inline void throw_if_failed(HRESULT& hr)
+{
+	if (FAILED(hr))
+		throw _com_error(hr);
+}
+
 inline void throw_if_failed(HRESULT&& hr)
 {
 	if (FAILED(hr))
