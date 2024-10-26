@@ -3,15 +3,22 @@
 
 MainWindow::MainWindow()
 {
-	msgCallbacks[WM_CREATE] = createCallback(&MainWindow::HandleCreate);
-	msgCallbacks[WM_DESTROY] = createCallback(&MainWindow::HandleDestroy);
-	msgCallbacks[WM_PAINT] = createCallback(&MainWindow::HandlePaint);
-	msgCallbacks[WM_SIZE] = createCallback(&MainWindow::HandleSize);
+	msgCallbacks[WM_CREATE]		= createCallback(&MainWindow::HandleCreate);
+	msgCallbacks[WM_DESTROY]	= createCallback(&MainWindow::HandleDestroy);
+	msgCallbacks[WM_PAINT]		= createCallback(&MainWindow::HandlePaint);
+	msgCallbacks[WM_SIZE]		= createCallback(&MainWindow::HandleSize);
 
 }
 void MainWindow::CalculateLayout()
 {
-
+	if (pRenderTarget != NULL)
+	{
+		D2D1_SIZE_F size	= pRenderTarget->GetSize();
+		float x				= size.width / 2;
+		float y				= size.height / 2;
+		const float radius	= min(x, y);
+		ellipse				= D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius);
+	}
 }
 
 HRESULT MainWindow::CreateGraphicsResources()
@@ -26,13 +33,13 @@ HRESULT MainWindow::CreateGraphicsResources()
 		GetClientRect(m_hwnd, &rect);
 		D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
 		throw_if_failed(pFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(m_hwnd, size), &pRenderTarget));
-		const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0.0f);
+		const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0.0f, 0.3);
 		throw_if_failed(pRenderTarget->CreateSolidColorBrush(color, &pBrush));
 		CalculateLayout();
 	}
 	catch (_com_error)
 	{
-		return -1;
+		return E_FAIL;
 	}
 	return S_OK;
 }
@@ -53,6 +60,12 @@ void MainWindow::HandleSize(MsgParams& msgParams)
 	pRenderTarget->Resize(size);
 	CalculateLayout();
 	InvalidateRect(m_hwnd, NULL, FALSE);
+}
+
+void MainWindow::HandleDestroy(MsgParams& msgParams)
+{
+	PostQuitMessage(0);
+	return;
 }
 
 void MainWindow::HandleCreate(MsgParams& msgParams)
@@ -77,11 +90,10 @@ void MainWindow::HandlePaint(MsgParams& msgParams)
 		
 		BeginPaint(m_hwnd, &paintStruct);
 		pRenderTarget->BeginDraw();
-		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
+		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::DarkBlue));
 		pRenderTarget->FillEllipse(ellipse, pBrush);
 
 		throw_if_failed(pRenderTarget->EndDraw());
-
 
 	}
 	catch (_com_error)

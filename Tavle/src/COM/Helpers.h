@@ -24,43 +24,49 @@ inline void throw_if_failed(HRESULT&& hr)
 }
 
 
+
 template<typename PTR_TYPE>
-class SHRPTR
+class SHPTR
 {
 private:
-	PTR_TYPE ptr;
 	unsigned int* pcRef;
 
 protected:
+	PTR_TYPE ptr;
 	virtual void DestroyPtr()
 	{
-		delete ptr;
+		delete this->ptr;
 	}
 
 public:
-	SHRPTR() :
+	SHPTR() :
 		ptr(nullptr),
 		pcRef(new unsigned int(1))
 	{}
 
-	SHRPTR(PTR_TYPE ptr) :
+	SHPTR(PTR_TYPE ptr) :
 		ptr(ptr),
 		pcRef(new unsigned int(1))
 	{}
 
-	SHRPTR(const SHRPTR& other) :
+	SHPTR(PTR_TYPE& ptr) :
+		ptr(ptr),
+		pcRef(new unsigned int(1))
+	{}
+
+	SHPTR(const SHPTR& other) :
 		ptr(other.ptr),
 		pcRef(other.pcRef)
 	{
 		++*(this->pcRef);
 	}
 
-	SHRPTR(SHRPTR&& other) :
+	SHPTR(SHPTR&& other) :
 		ptr(other.ptr),
 		pcRef(other.pcRef)
 	{}
 
-	~SHRPTR()
+	~SHPTR()
 	{
 		--*(this->pcRef);
 		if (*(this->pcRef) == 0)
@@ -87,14 +93,14 @@ public:
 
 	void operator*() = delete;
 
-	SHRPTR operator=(const SHRPTR& other)
+	SHPTR operator=(const SHPTR& other)
 	{
 		this->ptr = other.ptr;
 		this->pcRef = other.pcRef;
 		++*(this->pcRef);
 	}
 
-	SHRPTR operator=(const SHRPTR&& other)
+	SHPTR operator=(const SHPTR&& other)
 	{
 		this->ptr = other.ptr;
 		this->pcRef = other.pcRef;
@@ -110,78 +116,22 @@ public:
 
 // SMART POINTER / WRAPPER FOR COM
 template<typename PTR_TYPE>
-class ComPtrWrapper
+class ComPtrWrapper : public SHPTR<PTR_TYPE>
 {
-private:
-	PTR_TYPE ptr;
-	unsigned int* pcRef;
-public:
-	ComPtrWrapper() :
-		ptr(nullptr),
-		pcRef(new unsigned int(1))
-	{}
-
-	ComPtrWrapper(PTR_TYPE ptr) :
-		ptr(ptr),
-		pcRef(new unsigned int(1))
-	{}
-
-	ComPtrWrapper(const ComPtrWrapper& other) :
-		ptr(other.ptr),
-		pcRef(other.pcRef)
+protected:
+	void DestroyPtr() override
 	{
-		++*(this->pcRef);
+		CoTaskMemFree(this->ptr);
 	}
-
-	ComPtrWrapper(ComPtrWrapper&& other) :
-		ptr(other.ptr),
-		pcRef(other.pcRef)
-	{}
-
-	~ComPtrWrapper()
-	{
-		--*(this->pcRef);
-		if (*(this->pcRef) == 0)
-		{
-			CoTaskMemFree(ptr);
-			delete pcRef;
-		}
-	}
-
-	PTR_TYPE* operator&()
-	{
-		return &(this->ptr);
-	}
-
-	PTR_TYPE operator->()
-	{
-		return this->ptr;
-	}
-
-	PTR_TYPE GetPtr()
-	{
-		return this->ptr;
-	}
-
-	void operator*() = delete;
-
-	ComPtrWrapper operator=(const ComPtrWrapper& other)
-	{
-		this->ptr = other.ptr;
-		this->pcRef = other.pcRef;
-		++*(this->pcRef);
-	}
-
-	ComPtrWrapper operator=(const ComPtrWrapper&& other)
-	{
-		this->ptr = other.ptr;
-		this->pcRef = other.pcRef;
-	}
-
-	operator PTR_TYPE() const
-	{
-		return this->ptr;
-	}
-
 };
 
+// SMART POINTER FOR ARRAY
+template<typename PTR_TYPE>
+class ARRSHPTR : public SHPTR<PTR_TYPE>
+{
+protected:
+	void DestroyPtr() override
+	{
+		delete[] this->ptr;
+	}
+};

@@ -11,13 +11,13 @@ struct MsgParams
 		wParam(wParam),
 		lParam(lParam)
 	{}
-	UINT uMsg;
-	WPARAM wParam;
-	LPARAM lParam;
+	UINT	uMsg;
+	WPARAM	wParam;
+	LPARAM	lParam;
 };
 
-using MsgCallback = std::function<void(MsgParams&)>;
-using MsgType = UINT;
+using MsgCallback	= std::function<void(MsgParams&)>;
+using MsgType		= UINT;
 
 template<class DERIVED_TYPE>
 class BaseWindow
@@ -55,15 +55,15 @@ public:
 	{}
 
 	BOOL Create(
-		PCWSTR lpWindowName,
-		DWORD dwStyle,
-		DWORD dwExStyle = 0,
-		int x = CW_USEDEFAULT,
-		int y = CW_USEDEFAULT,
-		int nWidth = CW_USEDEFAULT,
-		int nHeight = CW_USEDEFAULT,
-		HWND hwndParent = NULL,
-		HMENU hMenu = 0
+		PCWSTR	lpWindowName,
+		DWORD	dwStyle,
+		DWORD	dwExStyle		= 0,
+		int		x				= CW_USEDEFAULT,
+		int		y				= CW_USEDEFAULT,
+		int		nWidth			= CW_USEDEFAULT,
+		int		nHeight			= CW_USEDEFAULT,
+		HWND	hwndParent		= NULL,
+		HMENU	hMenu			= 0
 	)
 	{
 		WNDCLASS wc = { 0 };
@@ -121,8 +121,20 @@ protected:
 			};
 	}
 
-protected:
+	void InitializeDPIScale()
+	{
+		float dpi = GetDpiForWindow(m_hwnd);
+		g_DPIScale = dpi / USER_DEFAULT_SCREEN_DPI;
+	}
 
+	template<typename T>
+	float PixelsToDips(T pixels)
+	{
+		return static_cast<float>(pixels) / g_DPIScale;
+	}
+
+protected:
+	float g_DPIScale = 1.0f;
 	std::unordered_map<MsgType, MsgCallback> msgCallbacks;
 	HWND m_hwnd;
 };

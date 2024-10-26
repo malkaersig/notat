@@ -8,10 +8,12 @@
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE _hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
+	const WCHAR* pWindowTitle = L"FUCKING WINDOWWWWWWW!!!";
 	Application<MainWindow> app(
 		hInstance,
 		pCmdLine,
-		nCmdShow
+		nCmdShow,
+		pWindowTitle
 		);
 	
 	return 0;
