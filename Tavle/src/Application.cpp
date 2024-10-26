@@ -2,9 +2,9 @@
 
 
 
-Application::Application(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow) :
+Application<class MAIN_WINDOW_TYPE>::Application(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow) :
 	hInstance(hInstance),
-	pCmdLine(pCmdLine),
+	pCmdLine((WCHAR*)pCmdLine, [](WCHAR* p) { delete[] p; }),
 	nCmdShow(nCmdShow)
 {
 	if (Init() < 0)
@@ -17,7 +17,7 @@ Application::Application(HINSTANCE hInstance, PWSTR pCmdLine, int nCmdShow) :
 	return;
 }
 
-int Application::Init()
+int Application<class MAIN_WINDOW_TYPE>::Init()
 {
 	// Initialize COM
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
@@ -42,7 +42,7 @@ int Application::Init()
 	return 0;
 }
 
-int Application::ApplicationLoop()
+int Application<class MAIN_WINDOW_TYPE>::ApplicationLoop()
 {
 	// RUN MESSAGE LOOP
 	MSG msg = {};
@@ -54,7 +54,7 @@ int Application::ApplicationLoop()
 	return 0;
 }
 
-int Application::Cleanup()
+int Application<class MAIN_WINDOW_TYPE>::Cleanup()
 {
 	CoUninitialize();
 	return 0;

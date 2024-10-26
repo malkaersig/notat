@@ -20,3 +20,5 @@
 #include <ShObjIdl.h>
 #include <atlbase.h> // CComPtr
 #include <comdef.h> // _com_error
+
+#include "TavleDefs.h"

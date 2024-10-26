@@ -8,7 +8,7 @@
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE _hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
-	Application app(
+	Application<MainWindow> app(
 		hInstance,
 		pCmdLine,
 		nCmdShow

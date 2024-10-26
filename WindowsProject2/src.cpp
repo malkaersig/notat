@@ -171,7 +171,7 @@ public:
 		return this->ptr;
 	}
 
-	PTR_TYPE get_ptr()
+	PTR_TYPE GetPtr()
 	{
 		return this->ptr;
 	}

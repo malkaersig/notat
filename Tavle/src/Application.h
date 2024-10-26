@@ -1,8 +1,10 @@
 #pragma once
 
-#include "MainWindow.h"
+#include "TavleInclude.h"
 #include <iostream>
 
+
+template<class MAIN_WINDOW_TYPE>
 class Application
 {
 public:
@@ -16,7 +18,7 @@ public:
 
 private:
 	HINSTANCE hInstance;
-	PWSTR pCmdLine;
+	UNPTR<WCHAR> pCmdLine;
 	int nCmdShow;
-	MainWindow mainWindow;
+	MAIN_WINDOW_TYPE mainWindow;
 };
