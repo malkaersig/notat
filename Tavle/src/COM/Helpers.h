@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 #include "TavleInclude.h"
 
 template<class T> void SafeRelease(T** ppT)
@@ -135,3 +137,4 @@ protected:
 		delete[] this->ptr;
 	}
 };
+

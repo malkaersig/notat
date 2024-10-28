@@ -5,3 +5,4 @@
 #include "BaseWindow.h"
 #include "COM/Helpers.h"
 #include "Application.h"
+#include "LookupTable.h"
