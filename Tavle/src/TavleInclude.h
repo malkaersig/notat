@@ -1,5 +1,8 @@
 #pragma once
 
+#pragma comment(lib, "d2d1")
+
+
 #ifndef UNICODE
 #define UNICODE
 #endif 
@@ -7,6 +10,7 @@
 #ifndef _UNICODE
 #define _UNICODE
 #endif 
+
 
 #include <vector>
 #include <utility>

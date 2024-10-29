@@ -8,8 +8,8 @@ public:
 
 	MainWindow();
 	void HandleClose(MsgParams& msgParams);
-	void HandleDestroy(MsgParams& msgParams);
-	void HandlePaint(MsgParams& msgParams);
+	void HandleDestroyMsg(MsgParams& msgParams);
+	void HandlePaintMsg(MsgParams& msgParams);
 
 
 };

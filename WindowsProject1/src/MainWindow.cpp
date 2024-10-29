@@ -2,34 +2,34 @@
 
 MainWindow::MainWindow()
 {
-	msgCallbacks[WM_CLOSE] = createCallback(&MainWindow::HandleClose);
-	msgCallbacks[WM_DESTROY] = createCallback(&MainWindow::HandleDestroy);
-	msgCallbacks[WM_PAINT] = createCallback(&MainWindow::HandlePaint);
+	msgCallbacks[WM_CLOSE] = CreateCallback(&MainWindow::HandleClose);
+	msgCallbacks[WM_DESTROY] = CreateCallback(&MainWindow::HandleDestroyMsg);
+	msgCallbacks[WM_PAINT] = CreateCallback(&MainWindow::HandlePaintMsg);
 	
 }
 
 void MainWindow::HandleClose(MsgParams& msgParams)
 {
-	if (MessageBox(m_hwnd, L"Will you really quiting?", L"Bill Gates's house wont bomb itself!", MB_OKCANCEL) == IDOK)
+	if (MessageBox(hwnd, L"Will you really quiting?", L"Bill Gates's house wont bomb itself!", MB_OKCANCEL) == IDOK)
 	{
-		DestroyWindow(m_hwnd);
+		DestroyWindow(hwnd);
 	}
 	return;
 }
 
-void MainWindow::HandleDestroy(MsgParams& msgParams)
+void MainWindow::HandleDestroyMsg(MsgParams& msgParams)
 {
 	PostQuitMessage(0);
 	return;
 }
 
-void MainWindow::HandlePaint(MsgParams& msgParams)
+void MainWindow::HandlePaintMsg(MsgParams& msgParams)
 {
 	PAINTSTRUCT ps;
-	HDC hdc = BeginPaint(m_hwnd, &ps);
+	HDC hdc = BeginPaint(hwnd, &ps);
 	// PAINTING OCCURS HERE
 	FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
 	// TO HERE
-	EndPaint(m_hwnd, &ps);
+	EndPaint(hwnd, &ps);
 	return;
 }

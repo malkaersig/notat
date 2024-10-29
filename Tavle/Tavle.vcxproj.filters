@@ -33,19 +33,10 @@
     <ClInclude Include="src\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BaseDrawable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DrawableMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\LookupTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Paintable.h">
+    <ClInclude Include="src\GraphicsModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

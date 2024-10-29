@@ -4,5 +4,5 @@
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE _prevHI, PWSTR pCmdLine, int nCmdShow)
 {
-	Application<MainWindow> app(hInstance, pCmdLine, nCmdShow, L"SIPPING ON THE CRACK IM JIZZIN IT");
+	Application<MainWindow> app(hInstance, pCmdLine, nCmdShow, L"PISSIN IN THE CAT, IM FINGERING IT");
 }

@@ -20,13 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\BaseDrawable.h" />
     <ClInclude Include="src\BaseWindow.h" />
     <ClInclude Include="src\COM\Helpers.h" />
-    <ClInclude Include="src\DrawableMap.h" />
     <ClInclude Include="src\LookupTable.h" />
-    <ClInclude Include="src\Paintable.h" />
-    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\GraphicsModule.h" />
     <ClInclude Include="src\Tavle.h" />
     <ClInclude Include="src\TavleDefs.h" />
     <ClInclude Include="src\TavleInclude.h" />

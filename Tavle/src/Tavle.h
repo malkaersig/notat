@@ -6,3 +6,4 @@
 #include "COM/Helpers.h"
 #include "Application.h"
 #include "LookupTable.h"
+#include "GraphicsModule.h"

@@ -4,6 +4,15 @@
 
 #define CLASS_NAME_OVERRIDE(classNameStr) const wchar_t* className = L"" #classNameStr " Custom Class"; PCWSTR ClassName() const override { return className; }
 
+class WindowModule
+{
+public:
+	inline virtual void	HandleDestroyMsg() {}
+	inline virtual void	HandlePaintMsg() {}
+	inline virtual void	HandleSizeMsg() {}
+	inline virtual void	HandleCreateMsg() {}
+};
+
 struct MsgParams
 {
 	MsgParams(UINT uMsg, WPARAM wParam, LPARAM lParam) :
@@ -34,7 +43,7 @@ public:
 			pThis = (DERIVED_TYPE*)pCreate->lpCreateParams;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
 
-			pThis->m_hwnd = hwnd;
+			pThis->hwnd = hwnd;
 		}
 		else
 		{
@@ -51,8 +60,13 @@ public:
 	}
 
 	BaseWindow() :
-		m_hwnd(NULL)
-	{}
+		hwnd(NULL)
+	{
+		msgCallbacks[WM_CREATE] = CreateCallback(&BaseWindow::HandleCreateMsg);
+		msgCallbacks[WM_DESTROY] = CreateCallback(&BaseWindow::HandleDestroyMsg);
+		msgCallbacks[WM_PAINT] = CreateCallback(&BaseWindow::HandlePaintMsg);
+		msgCallbacks[WM_SIZE] = CreateCallback(&BaseWindow::HandleSizeMsg);
+	}
 
 	BOOL Create(
 		PCWSTR	lpWindowName,
@@ -76,7 +90,7 @@ public:
 
 
 
-		m_hwnd = CreateWindowEx(
+		hwnd = CreateWindowEx(
 			dwExStyle,
 			ClassName(),
 			lpWindowName,
@@ -89,12 +103,12 @@ public:
 			this
 		);
 
-		return (m_hwnd ? TRUE : FALSE);
+		return (hwnd ? TRUE : FALSE);
 	}
 
 	HWND Window() const
 	{
-		return m_hwnd;
+		return hwnd;
 	}
 
 
@@ -109,10 +123,10 @@ protected:
 			msgCallbacks[msgParams.uMsg](msgParams);
 			return 0;
 		}
-		return DefWindowProc(m_hwnd, msgParams.uMsg, msgParams.wParam, msgParams.lParam);
+		return DefWindowProc(hwnd, msgParams.uMsg, msgParams.wParam, msgParams.lParam);
 	}
 
-	MsgCallback createCallback(void(DERIVED_TYPE::* member)(MsgParams&))
+	MsgCallback CreateCallback(void(DERIVED_TYPE::* member)(MsgParams&))
 	{
 		DERIVED_TYPE* pThis = (DERIVED_TYPE*)this;
 		return [pThis, member](MsgParams& msgParams)
@@ -123,7 +137,7 @@ protected:
 
 	void InitializeDPIScale()
 	{
-		float dpi = GetDpiForWindow(m_hwnd);
+		float dpi = GetDpiForWindow(hwnd);
 		g_DPIScale = dpi / USER_DEFAULT_SCREEN_DPI;
 	}
 
@@ -133,8 +147,42 @@ protected:
 		return static_cast<float>(pixels) / g_DPIScale;
 	}
 
+
+	void HandleDestroyMsg(MsgParams& msgParams)
+	{
+		for (const auto& module : modules)
+		{
+			module->HandleDestroyMsg();
+		}
+		PostQuitMessage(0);
+		return;
+	}
+	void HandlePaintMsg(MsgParams& msgParams)
+	{
+		for (const auto& module : modules)
+		{
+			module->HandlePaintMsg();
+		}
+	}
+	void HandleSizeMsg(MsgParams& msgParams)
+	{
+		for (const auto& module : modules)
+		{
+			module->HandleSizeMsg();
+		}
+	}
+	void HandleCreateMsg(MsgParams& msgParams)
+	{
+		for (const auto& module : modules)
+		{
+			module->HandleCreateMsg();
+		}
+	}
+
 protected:
 	float g_DPIScale = 1.0f;
 	std::unordered_map<MsgType, MsgCallback> msgCallbacks;
-	HWND m_hwnd;
+	HWND hwnd;
+	std::vector<std::unique_ptr<WindowModule>> modules;
+
 };

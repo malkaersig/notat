@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include "TavleInclude.h"
+#include "LookupTable.h"
 
 class DrawablesManager
 {
