@@ -1,23 +1,113 @@
 #pragma once
 
 #include "TavleInclude.h"
+#include <cmath>
+
+struct PaintableCallParams
+{
+	CComPtr<ID2D1HwndRenderTarget> pRenderTarget;
+};
 
 struct Paintable
 {
-	inline virtual HRESULT OnCreate(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) { return S_OK; }
-	inline virtual HRESULT OnSize(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) { return S_OK; }
-	inline virtual HRESULT OnPaint(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) { return S_OK; }
-	inline virtual HRESULT OnDiscard(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) { return S_OK; }
+protected:
+	CComPtr<ID2D1HwndRenderTarget>	pRenderTarget;
+	CComPtr<IDWriteFactory>			pDWriteFactory;
+public:
+	HRESULT Create(
+		CComPtr<ID2D1HwndRenderTarget> pRenderTarget, 
+		CComPtr<IDWriteFactory> pDWriteFactory)
+	{
+		this->pRenderTarget = pRenderTarget;
+		this->pDWriteFactory = pDWriteFactory;
+		return this->CreateOverride();
+	}
+
+	inline virtual HRESULT CreateOverride() { return S_OK; }
+	inline virtual HRESULT SizeOverride() { return S_OK; }
+	inline virtual HRESULT PaintOverride() { return S_OK; }
+	inline virtual HRESULT DiscardOverride() { return S_OK; }
+};
+
+struct SimpleText : public Paintable
+{
+private:
+	const WCHAR* string;
+	UINT32	stringLength;
+	D2D1::ColorF color						= D2D1::ColorF(1.0, 1.0, 1.0);
+	CComPtr<ID2D1SolidColorBrush> pBrush	= NULL;
+	CComPtr<IDWriteTextFormat> pTextFormat	= NULL;
+
+public:
+	SimpleText(const WCHAR* string) :
+		string(string),
+		stringLength(wcslen(string))
+	{}
+	inline HRESULT CreateOverride() override
+	{
+		try
+		{
+			throw_if_failed(pDWriteFactory->CreateTextFormat(
+				L"IMPACT",		// FAMILY NAME
+				NULL,				// FONT COLLECTION
+				DWRITE_FONT_WEIGHT_REGULAR,
+				DWRITE_FONT_STYLE_NORMAL,
+				DWRITE_FONT_STRETCH_NORMAL,
+				72.0f,
+				L"en-us",
+				&pTextFormat
+			));
+			throw_if_failed(pTextFormat->SetTextAlignment(
+				DWRITE_TEXT_ALIGNMENT_CENTER
+			));
+			throw_if_failed(pTextFormat->SetParagraphAlignment(
+				DWRITE_PARAGRAPH_ALIGNMENT_CENTER
+			));
+			throw_if_failed(pRenderTarget->CreateSolidColorBrush(color, &pBrush));
+		}
+		catch (_com_error)
+		{
+			return E_FAIL;
+		}
+		return S_OK;
+	}
+
+	inline HRESULT PaintOverride() override
+	{
+		if (!pRenderTarget)
+		{
+			return E_FAIL;
+		}
+		D2D1_SIZE_F size = pRenderTarget->GetSize();
+		D2D1_RECT_F layoutRect = {
+			0, 0,
+			size.width, size.height
+		};
+		pRenderTarget->DrawText(string, stringLength, pTextFormat.p, layoutRect, pBrush.p);
+		return S_OK;
+	}
+
+	// ON DISCARD IN GRAPHICSMODULE
+	inline HRESULT DiscardOverride() override
+	{
+		SafeRelease(&pBrush);
+		return S_OK;
+	}
 };
 
 struct Clear : public Paintable
 {
-	inline HRESULT OnPaint(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	D2D1::ColorF color = { 0.6, 0.6, 0.0, 1.0 };
+	float count = 0;
+	inline HRESULT PaintOverride() override
 	{
-		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::DarkBlue));
+		count = fmod(count + 0.1, 1.0);
+		color.b = count;
+		pRenderTarget->Clear(color);
 
 		return S_OK;
 	}
+
 };
 
 struct WatchBackground : public Paintable
@@ -28,7 +118,7 @@ private:
 	CComPtr<ID2D1SolidColorBrush>	pBrush;
 
 private:
-	void CalculateLayout(CComPtr<ID2D1HwndRenderTarget> pRenderTarget)
+	void CalculateLayout()
 	{
 		if (!pRenderTarget)
 		{
@@ -42,13 +132,14 @@ private:
 	}
 
 public:
-	inline HRESULT OnCreate(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	// ON CREATE 
+	inline HRESULT CreateOverride() override
 	{
 		try
 		{
 			const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0.0f);
 			throw_if_failed(pRenderTarget->CreateSolidColorBrush(color, &pBrush));
-			CalculateLayout(pRenderTarget);
+			CalculateLayout();
 		}
 		catch (_com_error)
 		{
@@ -56,7 +147,7 @@ public:
 		}
 		return S_OK;
 	}
-	inline HRESULT OnSize(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	inline HRESULT SizeOverride() override
 	{
 		D2D1_SIZE_F size = pRenderTarget->GetSize();
 		float x = size.width / 2;
@@ -68,7 +159,7 @@ public:
 
 	}
 	// ON PAITN IN GRAPHICS MODULE
-	inline HRESULT OnPaint(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	inline HRESULT PaintOverride() override
 	{
 		pRenderTarget->FillEllipse(D2ellipse, pBrush);
 
@@ -76,7 +167,7 @@ public:
 
 	}
 	// ON DISCARD IN GRAPHICSMODULE
-	inline HRESULT OnDiscard(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	inline HRESULT DiscardOverride() override
 	{
 		SafeRelease(&pBrush);
 
@@ -97,21 +188,14 @@ public:
 		children.emplace_back(std::move(child));
 	}
 
-	template<typename ... PAINTABLE_PTRS>
-	Scene(const PAINTABLE_PTRS&& ... ptrs)
+	inline HRESULT CreateOverride() override
 	{
-		
-	}
-
-	inline HRESULT OnCreate(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
-	{
-		children.emplace_back(std::make_unique<WatchBackground>());
 
 		try
 		{
 			for (const auto& child : children)
 			{
-				throw_if_failed(child->OnCreate(pRenderTarget));
+				throw_if_failed(child->Create(pRenderTarget, pDWriteFactory));
 			}
 		}
 		catch (_com_error)
@@ -121,13 +205,13 @@ public:
 
 
 	}
-	inline HRESULT OnSize(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	inline HRESULT SizeOverride() override
 	{
 		try
 		{
 			for (const auto& child : children)
 			{
-				throw_if_failed(child->OnSize(pRenderTarget));
+				throw_if_failed(child->SizeOverride());
 			}
 		}
 		catch (_com_error)
@@ -135,13 +219,13 @@ public:
 			return E_FAIL;
 		}
 	}
-	inline HRESULT OnPaint(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	inline HRESULT PaintOverride() override
 	{
 		try
 		{
 			for (const auto& child : children)
 			{
-				throw_if_failed(child->OnPaint(pRenderTarget));
+				throw_if_failed(child->PaintOverride());
 			}
 		}
 		catch (_com_error)
@@ -149,13 +233,13 @@ public:
 			return E_FAIL;
 		}
 	}
-	inline HRESULT OnDiscard(CComPtr<ID2D1HwndRenderTarget> pRenderTarget) override
+	inline HRESULT DiscardOverride() override
 	{
 		try
 		{
 			for (const auto& child : children)
 			{
-				throw_if_failed(child->OnDiscard(pRenderTarget));
+				throw_if_failed(child->DiscardOverride());
 			}
 		}
 		catch (_com_error)
@@ -172,7 +256,8 @@ class GraphicsModule : public WindowModule
 private:
 	CComPtr<ID2D1HwndRenderTarget>	pRenderTarget;
 	CComPtr<ID2D1Factory>			pFactory;
-	HWND* pHwnd;
+	CComPtr<IDWriteFactory>			pDWriteFactory;
+	HWND*							pHwnd;
 	std::unique_ptr<Paintable>		paintable;
 
 public:
@@ -183,6 +268,7 @@ public:
 
 	inline void HandleCreateMsg() override
 	{
+		// create direct2d factory
 		try
 		{
 			throw_if_failed(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory));
@@ -191,6 +277,23 @@ public:
 		{
 			return;
 		}
+
+		
+				// create direct write factory
+		try
+		{
+			throw_if_failed(DWriteCreateFactory(
+				DWRITE_FACTORY_TYPE_SHARED,
+				__uuidof(IDWriteFactory),
+				reinterpret_cast<IUnknown**>(&pDWriteFactory)
+			));
+		}
+		catch (_com_error)
+		{
+			return;
+		}
+		
+
 	}
 
 	inline void HandleSizeMsg() override
@@ -201,7 +304,7 @@ public:
 		GetClientRect(*pHwnd, &rect);
 		D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
 		pRenderTarget->Resize(size);
-		paintable->OnSize(pRenderTarget);
+		paintable->SizeOverride();
 		InvalidateRect(*pHwnd, NULL, FALSE);
 	}
 
@@ -215,7 +318,7 @@ public:
 
 			BeginPaint(*pHwnd, &paintStruct);
 			pRenderTarget->BeginDraw();
-			paintable->OnPaint(pRenderTarget);
+			paintable->PaintOverride();
 
 			// ATTENTION! this error is not accounted for cause FUCK this i hope it fails in the future and i put a shotgun to my mouth over it
 			throw_if_failed(pRenderTarget->EndDraw());
@@ -241,7 +344,7 @@ private:
 			GetClientRect(*pHwnd, &rect);
 			D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
 			throw_if_failed(pFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(*pHwnd, size), &pRenderTarget));
-			paintable->OnCreate(pRenderTarget);
+			paintable->Create(pRenderTarget, pDWriteFactory);
 		}
 		catch (_com_error)
 		{
@@ -252,7 +355,7 @@ private:
 
 	inline HRESULT DiscardGraphicsResources()
 	{
-		paintable->OnDiscard(pRenderTarget);
+		paintable->DiscardOverride();
 		SafeRelease(&pRenderTarget);
 		return S_OK;
 	}

@@ -1,6 +1,7 @@
 #pragma once
 
 #pragma comment(lib, "d2d1")
+#pragma comment(lib, "Dwrite")
 
 
 #ifndef UNICODE
@@ -27,6 +28,7 @@
 #include <atlbase.h> // CComPtr
 #include <comdef.h> // _com_error
 #include <d2d1.h> // DIRECT 2D STUFF
+#include <dwrite.h>
 
 #include "TavleDefs.h"
 #include "COM/Helpers.h"
