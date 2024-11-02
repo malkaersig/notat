@@ -11,6 +11,7 @@ public:
 	void HandleDestroyMsg(MsgParams& msgParams);
 	void HandlePaintMsg(MsgParams& msgParams);
 
+	std::fstream 
 
 };
 

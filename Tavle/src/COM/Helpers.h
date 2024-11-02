@@ -25,58 +25,43 @@ inline void throw_if_failed(HRESULT&& hr)
 		throw _com_error(hr);
 }
 
-
-
 template<typename PTR_TYPE>
-class SHPTR
+class ASHPTR
 {
-private:
-	unsigned int* pcRef;
-
 protected:
 	PTR_TYPE ptr;
-	virtual void DestroyPtr()
-	{
-		delete this->ptr;
-	}
+	unsigned int* pcRef;
 
 public:
-	SHPTR() :
+	virtual ~ASHPTR() = default;
+
+	ASHPTR() :
 		ptr(nullptr),
 		pcRef(new unsigned int(1))
 	{}
 
-	SHPTR(PTR_TYPE ptr) :
+	ASHPTR(PTR_TYPE ptr) :
 		ptr(ptr),
 		pcRef(new unsigned int(1))
 	{}
 
-	SHPTR(PTR_TYPE& ptr) :
+	ASHPTR(PTR_TYPE& ptr) :
 		ptr(ptr),
 		pcRef(new unsigned int(1))
 	{}
 
-	SHPTR(const SHPTR& other) :
+	ASHPTR(const ASHPTR& other) :
 		ptr(other.ptr),
 		pcRef(other.pcRef)
 	{
 		++*(this->pcRef);
 	}
 
-	SHPTR(SHPTR&& other) :
+	ASHPTR(ASHPTR&& other) :
 		ptr(other.ptr),
 		pcRef(other.pcRef)
 	{}
 
-	~SHPTR()
-	{
-		--*(this->pcRef);
-		if (*(this->pcRef) == 0)
-		{
-			DestroyPtr();
-			delete pcRef;
-		}
-	}
 
 	PTR_TYPE* operator&()
 	{
@@ -95,14 +80,14 @@ public:
 
 	void operator*() = delete;
 
-	SHPTR operator=(const SHPTR& other)
+	ASHPTR operator=(const ASHPTR& other)
 	{
 		this->ptr = other.ptr;
 		this->pcRef = other.pcRef;
 		++*(this->pcRef);
 	}
 
-	SHPTR operator=(const SHPTR&& other)
+	ASHPTR operator=(const ASHPTR&& other)
 	{
 		this->ptr = other.ptr;
 		this->pcRef = other.pcRef;
@@ -113,28 +98,57 @@ public:
 		return this->ptr;
 	}
 
+
+};
+
+
+template<typename PTR_TYPE>
+class SHPTR : public ASHPTR<PTR_TYPE>
+{
+public:
+	~SHPTR() override
+	{
+		--*(this->pcRef);
+		if (*(this->pcRef) == 0)
+		{
+			delete this->ptr;
+			delete this->pcRef;
+		}
+	}
+
 };
 
 
 // SMART POINTER / WRAPPER FOR COM
 template<typename PTR_TYPE>
-class ComPtrWrapper : public SHPTR<PTR_TYPE>
+class ComPtrWrapper : public ASHPTR<PTR_TYPE>
 {
-protected:
-	void DestroyPtr() override
+public:
+	~ComPtrWrapper() override
 	{
-		CoTaskMemFree(this->ptr);
+		--*(this->pcRef);
+		if (*(this->pcRef) == 0)
+		{
+			CoTaskMemFree(this->ptr);
+			delete this->pcRef;
+		}
 	}
+
 };
 
 // SMART POINTER FOR ARRAY
 template<typename PTR_TYPE>
-class ARRSHPTR : public SHPTR<PTR_TYPE>
+class ARRSHPTR : public ASHPTR<PTR_TYPE>
 {
-protected:
-	void DestroyPtr() override
+public:
+	~ARRSHPTR() override
 	{
-		delete[] this->ptr;
+		--*(this->pcRef);
+		if (*(this->pcRef) == 0)
+		{
+			delete[] this->ptr;
+			delete this->pcRef;
+		}
 	}
 };
 

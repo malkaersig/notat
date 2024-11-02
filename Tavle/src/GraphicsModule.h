@@ -3,12 +3,14 @@
 #include "TavleInclude.h"
 #include <cmath>
 
+#include <iostream>
+
 struct PaintableCallParams
 {
 	CComPtr<ID2D1HwndRenderTarget> pRenderTarget;
 };
 
-struct Paintable
+struct IPaintable
 {
 protected:
 	CComPtr<ID2D1HwndRenderTarget>	pRenderTarget;
@@ -29,7 +31,7 @@ public:
 	inline virtual HRESULT DiscardOverride() { return S_OK; }
 };
 
-struct SimpleText : public Paintable
+struct SimpleText : public IPaintable
 {
 private:
 	const WCHAR* string;
@@ -48,20 +50,20 @@ public:
 		try
 		{
 			throw_if_failed(pDWriteFactory->CreateTextFormat(
-				L"IMPACT",		// FAMILY NAME
+				L"Arial",		// FAMILY NAME
 				NULL,				// FONT COLLECTION
 				DWRITE_FONT_WEIGHT_REGULAR,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
-				72.0f,
+				14.0f,
 				L"en-us",
 				&pTextFormat
 			));
 			throw_if_failed(pTextFormat->SetTextAlignment(
-				DWRITE_TEXT_ALIGNMENT_CENTER
+				DWRITE_TEXT_ALIGNMENT_LEADING
 			));
 			throw_if_failed(pTextFormat->SetParagraphAlignment(
-				DWRITE_PARAGRAPH_ALIGNMENT_CENTER
+				DWRITE_PARAGRAPH_ALIGNMENT_NEAR
 			));
 			throw_if_failed(pRenderTarget->CreateSolidColorBrush(color, &pBrush));
 		}
@@ -95,14 +97,14 @@ public:
 	}
 };
 
-struct Clear : public Paintable
+struct Clear : public IPaintable
 {
-	D2D1::ColorF color = { 0.6, 0.6, 0.0, 1.0 };
+	D2D1::ColorF color = { 0.13, 0.11, 0.11, 1.0 };
 	float count = 0;
 	inline HRESULT PaintOverride() override
 	{
-		count = fmod(count + 0.1, 1.0);
-		color.b = count;
+		//count = fmod(count + 0.1, 1.0);
+		//color.b = count;
 		pRenderTarget->Clear(color);
 
 		return S_OK;
@@ -110,7 +112,7 @@ struct Clear : public Paintable
 
 };
 
-struct WatchBackground : public Paintable
+struct WatchBackground : public IPaintable
 {
 
 private:
@@ -137,7 +139,7 @@ public:
 	{
 		try
 		{
-			const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0.0f);
+			const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 0.95f, 0.9f);
 			throw_if_failed(pRenderTarget->CreateSolidColorBrush(color, &pBrush));
 			CalculateLayout();
 		}
@@ -176,14 +178,14 @@ public:
 
 };
 
-struct Scene : Paintable
+struct Scene : IPaintable
 {
 private:
 
-	std::vector<std::unique_ptr<Paintable>> children;
+	std::vector<std::unique_ptr<IPaintable>> children;
 public:
 
-	void AddChild(std::unique_ptr<Paintable>&& child)
+	void AddChild(std::unique_ptr<IPaintable>&& child)
 	{
 		children.emplace_back(std::move(child));
 	}
@@ -258,10 +260,10 @@ private:
 	CComPtr<ID2D1Factory>			pFactory;
 	CComPtr<IDWriteFactory>			pDWriteFactory;
 	HWND*							pHwnd;
-	std::unique_ptr<Paintable>		paintable;
+	std::unique_ptr<IPaintable>		paintable;
 
 public:
-	GraphicsModule(HWND* pHwnd, std::unique_ptr<Paintable>&& paintable) :
+	GraphicsModule(HWND* pHwnd, std::unique_ptr<IPaintable>&& paintable) :
 		pHwnd(pHwnd),
 		paintable(std::move(paintable))
 	{}
