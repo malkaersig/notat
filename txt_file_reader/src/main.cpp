@@ -1,4 +1,4 @@
-#include "Tavle.h"
+#include "Tavle\include.h"
 #include "MainWindow.h"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE _prevHI, PWSTR pCmdLine, int nCmdShow)

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "TavleInclude.h"
+#include "Tavle\TavleInclude.h"
 #include <cmath>
-#include "FileManager.h"
-#include "BaseWindow.h"
+#include "Tavle\FileManager.h"
+#include "Tavle\BaseWindow.h"
 #include <chrono>
 #include <cwchar>
-#include "Paintable/include.h"
+#include "Paintable/Paintable.h"
 
 #include "CustomTextRenderer.h"
 

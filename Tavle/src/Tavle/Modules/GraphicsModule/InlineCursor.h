@@ -4,7 +4,7 @@
 					   unused but good reference
 ------------------------------------------------------------------*/
 
-#include "TavleInclude.h"
+#include "Tavle\TavleInclude.h"
 
 class InlineCursor : public IDWriteInlineObject
 {

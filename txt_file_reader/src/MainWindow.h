@@ -1,6 +1,5 @@
 #pragma once
-#include "FileManager.h"
-#include "Tavle.h"
+#include "Tavle\include.h"
 
 class MainWindow : public BaseWindow<MainWindow>
 {
