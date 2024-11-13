@@ -40,15 +40,21 @@ public:
 		pcRef(new unsigned int(1))
 	{}
 
-	ASHPTR(PTR_TYPE ptr) :
+	ASHPTR(const PTR_TYPE ptr) :
 		ptr(ptr),
 		pcRef(new unsigned int(1))
 	{}
 
-	ASHPTR(PTR_TYPE& ptr) :
+	ASHPTR(const PTR_TYPE& ptr) :
 		ptr(ptr),
 		pcRef(new unsigned int(1))
 	{}
+
+	ASHPTR(const PTR_TYPE&& ptr) :
+		ptr(ptr),
+		pcRef(new unsigned int(1))
+	{}
+
 
 	ASHPTR(const ASHPTR& other) :
 		ptr(other.ptr),
@@ -79,6 +85,11 @@ public:
 	}
 
 	void operator*() = delete;
+
+	ASHPTR operator=(PTR_TYPE&& ptr)
+	{
+		this->ptr = ptr;
+	}
 
 	ASHPTR operator=(const ASHPTR& other)
 	{

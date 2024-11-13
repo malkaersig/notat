@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\FileManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
   </ItemGroup>
@@ -29,7 +28,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\FileManager.h" />
     <ClInclude Include="src\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,7 @@
 #define _UNICODE
 #endif 
 
+#include <atlbase.h> // CComPtr
 
 #include <vector>
 #include <utility>
@@ -25,8 +26,8 @@
 #include <Windowsx.h>
 #include <Windows.h>
 #include <ShObjIdl.h>
-#include <atlbase.h> // CComPtr
 #include <comdef.h> // _com_error
+
 #include <d2d1.h> // DIRECT 2D STUFF
 #include <dwrite.h>
 

@@ -21,7 +21,7 @@
     <ClInclude Include="src\BaseWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tavle.h">
+    <ClInclude Include="src\include.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\TavleInclude.h">
@@ -36,12 +36,96 @@
     <ClInclude Include="src\LookupTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GraphicsModule.h">
+    <ClInclude Include="src\Modules\GraphicsModule\GraphicsModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\TextInputModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\Paintable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\ExitModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\SaveFileModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\CustomTextRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\InlineCursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\LinkedListText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\WatchBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\Clear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\BaseText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\SimpleText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\FpsCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\src.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\GraphicsModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\CustomTextRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\InlineCursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\WatchBackground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\Paintable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\Clear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\LinkedListText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\BaseText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\SimpleText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

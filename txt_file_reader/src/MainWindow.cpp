@@ -4,6 +4,8 @@
 
 MainWindow::MainWindow()
 {
+	bool fileLoaded = false;
+	while (!fileLoaded)
 	try
 	{
 		throw_if_failed(CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE));
@@ -19,8 +21,8 @@ MainWindow::MainWindow()
 		ComPtrWrapper<PWSTR> pszFilePath;
 		throw_if_failed(pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath));
 
-		fm.LoadFile(pszFilePath.GetPtr());
-		file_string = fm.GetString();
+		pFileManager = std::make_shared<FileManager>(pszFilePath.GetPtr());
+		fileLoaded = true;
 	}
 	catch (_com_error)
 	{
@@ -29,13 +31,19 @@ MainWindow::MainWindow()
 
 	}
 
-
-	auto scene				= std::make_unique<Scene>();
-	auto clear				= std::make_unique<Clear>();
-	auto text				= std::make_unique<SimpleText>(file_string.c_str());
-	scene->AddChild(std::move(clear));
-	scene->AddChild(std::move(text));
-
-	auto graphicsModule = std::make_unique<GraphicsModule>(&hwnd, std::move(scene));
-	modules.emplace_back(std::move(graphicsModule));
+	D2D1_RECT_F textRect = {
+		0.1, 0.1,
+		0.9, 0.9
+	};
+	auto scene				= std::make_shared<Scene>();
+	auto clear				= std::make_shared<Clear>();
+	auto text				= std::make_shared<LinkedListText>(pFileManager, textRect, 12.0f);
+	auto fps				= std::make_shared<FpsCounter<MainWindow>>(graphicsModule);
+	scene->AddChild(clear);
+	scene->AddChild(text);
+	scene->AddChild(fps);
+	
+	graphicsModule	= std::make_shared<GraphicsModule<MainWindow>>(*this, scene);
+	saveFileModule	= std::make_shared<SaveFileModule<MainWindow>>(*this, pFileManager);
+	textInputModule = std::make_shared<TextInputModule<MainWindow>>(*this, text);
 }

@@ -34,11 +34,7 @@ Application<MAIN_WINDOW_TYPE>::Application(HINSTANCE hInstance, PCWSTR pCmdLine,
 	nCmdShow(nCmdShow),
 	pWindowTitle(pWindowTitle)
 {
-	if (Init() < 0)
-	{
-		Cleanup();
-		return;
-	}
+	Init();
 	ApplicationLoop();
 	Cleanup();
 	return;
@@ -62,10 +58,12 @@ int Application<MAIN_WINDOW_TYPE>::Init()
 	))
 	{
 		std::cerr << "Failed to open window.";
+		return -1;
 	}
 
 	// SHOW WINDOW
 	ShowWindow(mainWindow.Window(), nCmdShow);
+
 
 	return 0;
 }

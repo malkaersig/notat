@@ -19,16 +19,44 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Modules\ExitModule.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\CustomTextRenderer.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\include.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\InlineCursor.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\BaseText.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\FpsCounter.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\include.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\LinkedListText.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\Clear.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\Paintable.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\Scene.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\SimpleText.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\Paintable\WatchBackground.h" />
+    <ClInclude Include="src\Modules\SaveFileModule.h" />
+    <ClInclude Include="src\Modules\TextInputModule.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\BaseWindow.h" />
     <ClInclude Include="src\COM\Helpers.h" />
+    <ClInclude Include="src\FileManager.h" />
     <ClInclude Include="src\LookupTable.h" />
-    <ClInclude Include="src\GraphicsModule.h" />
-    <ClInclude Include="src\Tavle.h" />
+    <ClInclude Include="src\Modules\GraphicsModule\GraphicsModule.h" />
+    <ClInclude Include="src\Modules\include.h" />
+    <ClInclude Include="src\include.h" />
     <ClInclude Include="src\TavleDefs.h" />
     <ClInclude Include="src\TavleInclude.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\FileManager.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\CustomTextRenderer.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\GraphicsModule.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\InlineCursor.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\BaseText.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\Clear.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\LinkedListText.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\Paintable.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\Scene.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\SimpleText.cpp" />
+    <ClCompile Include="src\Modules\GraphicsModule\Paintable\WatchBackground.cpp" />
     <ClCompile Include="src\src.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -83,6 +111,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)Tavle\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)Tavle\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)Tavle\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)Tavle\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
