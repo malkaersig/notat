@@ -3,6 +3,7 @@
 #include "Clear.h"
 #include "FpsCounter.h"
 #include "LinkedListText.h"
+#include "PaddedRRect.h"
 #include "Paintable.h"
 #include "Scene.h"
 #include "SimpleText.h"

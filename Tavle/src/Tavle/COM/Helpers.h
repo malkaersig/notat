@@ -2,7 +2,7 @@
 
 
 
-#include "TavleInclude.h"
+#include "../TavleInclude.h"
 
 template<class T> void SafeRelease(T** ppT)
 {

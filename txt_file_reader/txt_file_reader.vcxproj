@@ -28,6 +28,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\colors.h" />
     <ClInclude Include="src\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>

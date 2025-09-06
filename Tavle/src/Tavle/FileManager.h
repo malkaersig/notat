@@ -77,5 +77,6 @@ public:
 	void GoTo(unsigned int newPos);
 	std::wstring Filepath();
 	TextDrawingInfo CreateTextDrawingInfo();
+	std::wstring CreateSubstring(unsigned int startPos, unsigned int endPos);
 
 };

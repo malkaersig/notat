@@ -19,8 +19,8 @@ inline HRESULT WatchBackground::CreateOverride()
 {
 	try
 	{
-		const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 0.95f, 0.9f);
-		throw_if_failed(pRenderTarget->CreateSolidColorBrush(color, &pBrush));
+		const D2D1_COLOR_F textColor = D2D1::ColorF(1.0f, 0.95f, 0.9f);
+		throw_if_failed(pRenderTarget->CreateSolidColorBrush(textColor, &pBrush));
 		CalculateLayout();
 	}
 	catch (_com_error)

@@ -1,6 +1,6 @@
 
 #include "MainWindow.h"
-
+#include "colors.h"
 
 MainWindow::MainWindow()
 {
@@ -35,13 +35,13 @@ MainWindow::MainWindow()
 		0.1, 0.1,
 		0.9, 0.9
 	};
-	auto scene				= std::make_shared<Scene>();
-	auto clear				= std::make_shared<Clear>();
-	auto text				= std::make_shared<LinkedListText>(pFileManager, textRect, 12.0f);
-	auto fps				= std::make_shared<FpsCounter<MainWindow>>(graphicsModule);
+	auto scene = std::make_shared<Scene>();
+	auto clear = std::make_shared<Clear>(myColor5);
+	auto text = std::make_shared<LinkedListText>(pFileManager, textRect, 12.0f, myColor1, myColor2);
+	auto background = std::make_shared<PaddedRRect>(textRect, 10, myColor4);
 	scene->AddChild(clear);
+	scene->AddChild(background);
 	scene->AddChild(text);
-	scene->AddChild(fps);
 	
 	graphicsModule	= std::make_shared<GraphicsModule<MainWindow>>(*this, scene);
 	saveFileModule	= std::make_shared<SaveFileModule<MainWindow>>(*this, pFileManager);

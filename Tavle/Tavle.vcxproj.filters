@@ -90,6 +90,9 @@
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\FpsCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\PaddedRRect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Tavle\src.cpp">
@@ -126,6 +129,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\SimpleText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\PaddedRRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

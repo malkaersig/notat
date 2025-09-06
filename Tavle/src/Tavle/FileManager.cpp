@@ -129,7 +129,7 @@ void FileManager::GoTo(unsigned int newPos)
 		while (cursorPos != newPos)
 		{
 			++cursorPos;
-			pCurrentNode->pNext;
+			pCurrentNode = pCurrentNode->pNext;
 		}
 		return;
 	}
@@ -138,7 +138,7 @@ void FileManager::GoTo(unsigned int newPos)
 		while (cursorPos != newPos)
 		{
 			--cursorPos;
-			pCurrentNode->pPrev;
+			pCurrentNode = pCurrentNode->pPrev;
 		}
 		return;
 	}
@@ -152,7 +152,6 @@ std::wstring FileManager::Filepath()
 TextDrawingInfo FileManager::CreateTextDrawingInfo()
 {
 	std::wstringstream ss;
-	unsigned int cChar = 0;
 	Node* pScannerNode = pStartNode->pNext;
 	while (pScannerNode->nodeType == WCHAR_NODE)
 	{
@@ -161,6 +160,43 @@ TextDrawingInfo FileManager::CreateTextDrawingInfo()
 	}
 	TextDrawingInfo drawingInfo = { ss.str(), cursorPos };
 	return drawingInfo;
+}
+
+std::wstring FileManager::CreateSubstring(unsigned int startPos, unsigned int endPos)
+{
+	//startPos += 2;
+	//endPos += 2;
+	Node* pScannerNode = pStartNode;
+	unsigned int scannerPos = 0;
+	bool nodeTypeIsValid = (pScannerNode->nodeType == WCHAR_NODE);
+	bool positionIsValid = (scannerPos == startPos);
+	while (!nodeTypeIsValid || !positionIsValid)
+	{
+		
+		if (pScannerNode->nodeType == WCHAR_NODE)
+			++scannerPos;
+		pScannerNode = pScannerNode->pNext;
+		nodeTypeIsValid = (pScannerNode->nodeType == WCHAR_NODE);
+		positionIsValid = (scannerPos == startPos);
+	}
+	
+
+	std::wstringstream ss;
+
+	//ss << L"CopyInfo([" << std::to_wstring(scannerPos) << L", " << *static_cast<wchar_t*>(pScannerNode->pElement) << "]," << std::to_wstring(startPos) << L", " << std::to_wstring(endPos) << L"), Selection(";
+
+	//return ss.str();
+
+	while (pScannerNode->nodeType == WCHAR_NODE && scannerPos < endPos)
+	{
+
+		ss << *static_cast<wchar_t*>(pScannerNode->pElement);
+		//ss << std::to_wstring(scannerPos);
+		pScannerNode = pScannerNode->pNext;
+		++scannerPos;
+	}
+	//ss << ")";
+	return ss.str();
 }
 
 inline Node::Node(NODE_DATA type) :

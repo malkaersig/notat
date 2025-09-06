@@ -4,7 +4,7 @@
 struct ABaseText : public IPaintable
 {
 protected:
-	D2D1::ColorF color = D2D1::ColorF(1.0, 1.0, 1.0);
+	D2D1::ColorF textColor = D2D1::ColorF(1.0, 1.0, 1.0);
 	CComPtr<ID2D1SolidColorBrush> pBrush = NULL;
 	CComPtr<IDWriteTextFormat> pTextFormat = NULL;
 

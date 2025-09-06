@@ -20,7 +20,7 @@ HRESULT ABaseText::CreateOverride()
 		throw_if_failed(pTextFormat->SetParagraphAlignment(
 			DWRITE_PARAGRAPH_ALIGNMENT_NEAR
 		));
-		throw_if_failed(pRenderTarget->CreateSolidColorBrush(color, &pBrush));
+		throw_if_failed(pRenderTarget->CreateSolidColorBrush(textColor, &pBrush));
 	}
 	catch (_com_error)
 	{

@@ -28,6 +28,7 @@
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\include.h" />
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\LinkedListText.h" />
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\Clear.h" />
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\PaddedRRect.h" />
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\Paintable.h" />
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\Scene.h" />
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\SimpleText.h" />
@@ -53,6 +54,7 @@
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\BaseText.cpp" />
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\Clear.cpp" />
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\LinkedListText.cpp" />
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\PaddedRRect.cpp" />
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\Paintable.cpp" />
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\Scene.cpp" />
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\SimpleText.cpp" />
