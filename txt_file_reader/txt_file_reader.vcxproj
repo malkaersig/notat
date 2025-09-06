@@ -31,9 +31,6 @@
     <ClInclude Include="src\colors.h" />
     <ClInclude Include="src\MainWindow.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="text.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
