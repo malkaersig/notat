@@ -30,6 +30,4 @@
 
 #include <d2d1.h> // DIRECT 2D STUFF
 #include <dwrite.h>
-
-#include "TavleDefs.h"
 #include "COM/Helpers.h"

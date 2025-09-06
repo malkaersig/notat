@@ -28,7 +28,7 @@ MainWindow::MainWindow()
 	{
 		std::cerr << "_com_error (smd idk, go debug)";
 		// handle error
-
+		 
 	}
 
 	D2D1_RECT_F textRect = {

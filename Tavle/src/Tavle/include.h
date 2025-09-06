@@ -5,5 +5,4 @@
 #include "BaseWindow.h"
 #include "FileManager.h"
 #include "LookupTable.h"
-#include "TavleDefs.h"
 #include "TavleInclude.h"

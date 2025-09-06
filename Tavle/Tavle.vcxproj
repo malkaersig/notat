@@ -43,7 +43,6 @@
     <ClInclude Include="src\Tavle\Modules\GraphicsModule\GraphicsModule.h" />
     <ClInclude Include="src\Tavle\Modules\include.h" />
     <ClInclude Include="src\Tavle\include.h" />
-    <ClInclude Include="src\Tavle\TavleDefs.h" />
     <ClInclude Include="src\Tavle\TavleInclude.h" />
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +58,6 @@
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\Scene.cpp" />
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\SimpleText.cpp" />
     <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\WatchBackground.cpp" />
-    <ClCompile Include="src\Tavle\src.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

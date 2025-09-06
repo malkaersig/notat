@@ -2,14 +2,6 @@
 #include "BaseWindow.h"
 #include "GraphicsModule/include.h"
 
-class ShortCutManager
-{
-	
-
-
-};
-
-
 template <class WINDOW_TYPE>
 class TextInputModule 
 {

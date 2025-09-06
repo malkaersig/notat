@@ -27,9 +27,6 @@
     <ClInclude Include="src\Tavle\TavleInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tavle\TavleDefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tavle\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -95,9 +92,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Tavle\src.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tavle\FileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
