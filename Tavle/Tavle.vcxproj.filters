@@ -15,33 +15,123 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\COM\Helpers.h">
+    <ClInclude Include="src\Tavle\COM\Helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BaseWindow.h">
+    <ClInclude Include="src\Tavle\BaseWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tavle.h">
+    <ClInclude Include="src\Tavle\include.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TavleInclude.h">
+    <ClInclude Include="src\Tavle\TavleInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TavleDefs.h">
+    <ClInclude Include="src\Tavle\TavleDefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Application.h">
+    <ClInclude Include="src\Tavle\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\LookupTable.h">
+    <ClInclude Include="src\Tavle\LookupTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GraphicsModule.h">
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\GraphicsModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\FileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\TextInputModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\Paintable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\ExitModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\SaveFileModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\CustomTextRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\InlineCursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\LinkedListText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\WatchBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\Clear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\BaseText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\SimpleText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\FpsCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tavle\Modules\GraphicsModule\Paintable\PaddedRRect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\src.cpp">
+    <ClCompile Include="src\Tavle\src.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\FileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\GraphicsModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\CustomTextRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\InlineCursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\WatchBackground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\Paintable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\Clear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\LinkedListText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\BaseText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\SimpleText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tavle\Modules\GraphicsModule\Paintable\PaddedRRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
