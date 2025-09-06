@@ -1,17 +1,50 @@
-## Projektet er ikke færdigt!!! 
-Også selvom det er et meget simpelt program er det stadig ustabilt
+# Notat (C++14 / WinAPI) 
 
-# Simpel WinAPI tekst program skrevet med C++14
-Programmet blev lavet for at jeg kunne blive mere bekendt med at bruge Window's WinAPI til at åbne et vindue, tegne tekst til skærmen og håndtere input fra brugeren.
+Et simpelt tekstprogram og bibliotek skrevet i C++14 der gør direkte af Windows’ WinAPI. Projektet blev lavet med formål om at lære hvordan man kan lave et grafisk program uden at gøre brug af eksterne frameworks. 
 
-Det meste af koden ligger i et biblotek jeg lavede kaldt "Tavle", det blev skrevet med at det senere skulle kunne blive udvidet i tankerne,
-så der er forskellige "Modules" som lytter til messages fra windows og adder sine egen funktinalitet.
-F.eks. er der et modul der hedder "GraphcisModule" der tager et "Scene" objekt som består af forskellige andre "Paintable" objekter, og lytter til "HandlePaintMsg" (WM_PAINT) beskeden fra windows og tegner scene til vinduet i Windows. 
-Alt det er fuldstændigt eksternt fra "SaveFileModule" der blot lytter til "HandleDestroyMsg", som bliver kaldt når vinduet lukker, og spørger brugeren om de vil gemme evt. ændringer.
+ ! Projektet er stadig under udvikling og er til tider ustabilt. 
+ 
+<img width="838" height="513" alt="image" src="https://github.com/user-attachments/assets/512e5fba-bc61-4f2c-8125-eb2a6f90a749" />
 
-Selve programmet "txt-file-reader" arver fra en "BaseWindow" klasse der håndterer at lave et vindue og lader modules forbinde til beskeder fra vinduet. 
-I en ideel verden skal en bruger af "Tavle" bibloteket ikke skrive en linje WinAPI kode, men da jeg er stoppet med at lave på dette projekt i mens jeg tilføjede en file browser er der noget grimt WinAPI kode i MainWindow.cpp.
+# Formål 
 
-Screenshot af programmet 
+Under udviklingen af projektet arbejdede jeg meget med WinAPI – herunder: 
 
-<img width="802" height="724" alt="image" src="https://github.com/user-attachments/assets/a2a3b6e2-3320-4bdb-bb54-ae1a6b350698" />
+    At åbne og håndtere et vindue 
+
+    Tegne tekst og grafik 
+
+    Håndtere brugerinput  
+
+Jeg byggede et bibliotek kaldt “Tavle” som forenkler og deler processen af at lave en WinAPI applikation op i mindre genanvendelige moduler. 
+
+# Struktur og moduler  
+
+Projektet består af en template for et Windows vindue samt en række moduler der håndterer forskellige beskeder fra Windows: 
+
+    “BaseWindow”: En base vindue klasse der opretter et vindue og giver moduler adgang til at registrere sig til beskeder. 
+
+    “GraphcisModule”: Kan tegne et “Scene”-objekt, som kan indeholde ting som tekstelementer eller grafiske elementer. 
+
+    “SaveFileModule”: Reagerer på “quit” besked og spørger brugeren om de vil gemmen ændringer. 
+
+    “TextInputModule”: Tager input fra bruger og redigerer et tekstelement så det passer med hvad brugeren gør. 
+
+Med den endelige version af Tavle-bibliotek er det drømmen at man vil kunne lave simple GUI-applikationer uden at direkte skrive WinAPI-kode. 
+
+# Status  
+
+Programmet fungerer teknisk set, men bør ikke bruges som et færdigt værktøj da der mangler vigtige features og er meget et proof-of-concept. 
+
+# Læringsmål 
+
+Gennem projektet har jeg arbejdet med: 
+
+    Windows beskedhåndtering (WM_PAINT, WM_DESTROY, osv.) 
+
+    Modulært design med C++ 
+
+    Low-Level GUI-Programming uden brug af frameworks 
+
+Link til github siden: https://github.com/malkaersig/notat/
+
