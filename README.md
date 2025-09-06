@@ -13,4 +13,5 @@ Selve programmet "txt-file-reader" arver fra en "BaseWindow" klasse der håndter
 I en ideel verden skal en bruger af "Tavle" bibloteket ikke skrive en linje WinAPI kode, men da jeg er stoppet med at lave på dette projekt i mens jeg tilføjede en file browser er der noget grimt WinAPI kode i MainWindow.cpp.
 
 Screenshot af programmet 
+
 <img width="802" height="724" alt="image" src="https://github.com/user-attachments/assets/a2a3b6e2-3320-4bdb-bb54-ae1a6b350698" />
